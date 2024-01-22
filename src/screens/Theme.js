@@ -9,7 +9,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Icons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { Avatar } from 'react-native-paper'
 import Icon1 from 'react-native-vector-icons/MaterialIcons';
-import { EventRegister } from 'react-native-event-listeners'
+import { EventRegister } from 'react-native-event-listeners';
+import { Platform } from "react-native";
 
 const width = Dimensions.get('screen').width
 const height = Dimensions.get('screen').height

@@ -10,6 +10,7 @@ import Icons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { Avatar } from 'react-native-paper'
 // import OtpInputs from 'react-native-otp-inputs'
 // import Clipboard from '@react-native-clipboard/clipboard'
+import { Platform } from "react-native";
 
 const width = Dimensions.get('screen').width
 const height = Dimensions.get('screen').height

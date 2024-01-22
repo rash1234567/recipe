@@ -19,6 +19,7 @@ import { Colors } from "../theme/color";
 import { useNavigation } from "@react-navigation/native";
 import { AppBar } from "@react-native-material/core";
 import Icon from "react-native-vector-icons/Ionicons";
+import { Platform } from "react-native";
 
 const width = Dimensions.get("screen").width;
 const height = Dimensions.get("screen").height;
@@ -57,7 +58,7 @@ export default function ScreenS() {
                 style.inputContainer,
                 {
                   borderColor:
-                    isFocused === "Type for find recipes.."
+                    isFocused === "Type to find recipes.."
                       ? Colors.primary
                       : theme.input,
                   borderWidth: 1,
@@ -69,8 +70,8 @@ export default function ScreenS() {
                 <Icon name="search" size={20} color={theme.disable}></Icon>
               </TouchableOpacity>
               <TextInput
-                placeholder="Type for find recipes.."
-                onFocus={() => setIsFocused("Type for find recipes..")}
+                placeholder="Type to find recipes.."
+                onFocus={() => setIsFocused("Type to find recipes..")}
                 onBlur={() => setIsFocused(false)}
                 selectionColor={Colors.primary}
                 placeholderTextColor={Colors.disable}

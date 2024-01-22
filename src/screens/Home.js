@@ -65,7 +65,7 @@ export default function Home() {
               style.inputContainer,
               {
                 borderColor:
-                  isFocused === "Type for find recipes.."
+                  isFocused === "Type to find recipes.."
                     ? Colors.primary
                     : theme.input,
                 borderWidth: 1,
@@ -78,8 +78,8 @@ export default function Home() {
               <Icon name="search" size={20} color={theme.disable}></Icon>
             </TouchableOpacity>
             <TextInput
-              placeholder="Type for find recipes.."
-              onFocus={() => setIsFocused("Type for find recipes..")}
+              placeholder="Type to find recipes.."
+              onFocus={() => setIsFocused("Type to find recipes..")}
               onBlur={() => setIsFocused(false)}
               selectionColor={Colors.primary}
               placeholderTextColor={Colors.disable}

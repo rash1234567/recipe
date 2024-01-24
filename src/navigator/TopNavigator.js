@@ -2,23 +2,17 @@ import {
   View,
   Text,
   SafeAreaView,
-  TextInput,
   Dimensions,
-  ImageBackground,
-  StatusBar,
   TouchableOpacity,
-  Image,
   ScrollView,
-  KeyboardAvoidingView,
 } from "react-native";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { Colors } from "../theme/color";
 import style from "../theme/style";
-import { VStack } from "@react-native-material/core";
 import Icon from "react-native-vector-icons/Ionicons";
 import themeContext from "../theme/themeContex";
-import { AppBar } from "@react-native-material/core";
+
 import { useNavigation } from "@react-navigation/native";
 
 const width = Dimensions.get("screen").width;
@@ -42,7 +36,7 @@ const Draft = () => {
           }}
         >
           <Text style={[style.r16, { color: theme.txt }]}>Shepherd's pie</Text>
-          <Icon name="ellipsis-vertical" size={20} color={theme.txt}></Icon>
+          <Icon name="ellipsis-vertical" size={20} color={theme.txt} />
         </View>
         <Text style={[style.r12, { color: theme.disable }]}>
           Edited 12 minutes ago
@@ -53,7 +47,7 @@ const Draft = () => {
             style.divider,
             { backgroundColor: Colors.border, marginTop: 10 },
           ]}
-        ></View>
+        />
 
         <View
           style={{
@@ -64,7 +58,7 @@ const Draft = () => {
           }}
         >
           <Text style={[style.r16, { color: theme.txt }]}>Arancini</Text>
-          <Icon name="ellipsis-vertical" size={20} color={theme.txt}></Icon>
+          <Icon name="ellipsis-vertical" size={20} color={theme.txt} />
         </View>
         <Text style={[style.r12, { color: theme.disable }]}>
           Edited 1 day ago
@@ -84,7 +78,7 @@ const Draft = () => {
           right: 10,
         }}
       >
-        <Icon name="add-sharp" size={35} color={Colors.secondary}></Icon>
+        <Icon name="add-sharp" size={35} color={Colors.secondary} />
       </TouchableOpacity>
     </SafeAreaView>
   );
@@ -110,7 +104,7 @@ const MyRecipes = () => {
           <Text style={[style.r16, { color: theme.txt }]}>
             Curry salmon soup
           </Text>
-          <Icon name="ellipsis-vertical" size={20} color={theme.txt}></Icon>
+          <Icon name="ellipsis-vertical" size={20} color={theme.txt} />
         </View>
 
         <View
@@ -131,7 +125,7 @@ const MyRecipes = () => {
               style.verticaldivider,
               { backgroundColor: Colors.border, height: height / 18 },
             ]}
-          ></View>
+          />
 
           <View>
             <Text style={[style.r12, { color: theme.disable }]}>
@@ -145,7 +139,7 @@ const MyRecipes = () => {
               style.verticaldivider,
               { backgroundColor: Colors.border, height: height / 18 },
             ]}
-          ></View>
+          />
 
           <View>
             <Text style={[style.r12, { color: theme.disable }]}>Saved</Text>
@@ -157,7 +151,7 @@ const MyRecipes = () => {
               style.verticaldivider,
               { backgroundColor: Colors.border, height: height / 18 },
             ]}
-          ></View>
+          />
 
           <View>
             <Text style={[style.r12, { color: theme.disable }]}>Share</Text>
@@ -170,7 +164,7 @@ const MyRecipes = () => {
             style.divider,
             { backgroundColor: Colors.border, marginTop: 10 },
           ]}
-        ></View>
+        />
 
         <View
           style={{
@@ -183,7 +177,7 @@ const MyRecipes = () => {
           <Text style={[style.r16, { color: theme.txt }]}>
             Blueberry pancake
           </Text>
-          <Icon name="ellipsis-vertical" size={20} color={theme.txt}></Icon>
+          <Icon name="ellipsis-vertical" size={20} color={theme.txt} />
         </View>
 
         <View
@@ -204,7 +198,7 @@ const MyRecipes = () => {
               style.verticaldivider,
               { backgroundColor: Colors.border, height: height / 18 },
             ]}
-          ></View>
+          />
 
           <View>
             <Text style={[style.r12, { color: theme.disable }]}>
@@ -218,7 +212,7 @@ const MyRecipes = () => {
               style.verticaldivider,
               { backgroundColor: Colors.border, height: height / 18 },
             ]}
-          ></View>
+          />
 
           <View>
             <Text style={[style.r12, { color: theme.disable }]}>Saved</Text>
@@ -230,7 +224,7 @@ const MyRecipes = () => {
               style.verticaldivider,
               { backgroundColor: Colors.border, height: height / 18 },
             ]}
-          ></View>
+          />
 
           <View>
             <Text style={[style.r12, { color: theme.disable }]}>Share</Text>
@@ -252,7 +246,7 @@ const MyRecipes = () => {
           right: 10,
         }}
       >
-        <Icon name="add-sharp" size={35} color={Colors.secondary}></Icon>
+        <Icon name="add-sharp" size={35} color={Colors.secondary} />
       </TouchableOpacity>
     </SafeAreaView>
   );
@@ -262,7 +256,7 @@ const Tab = createMaterialTopTabNavigator();
 
 export default function TopNavigator() {
   const theme = useContext(themeContext);
-  const [darkMode, setDarkMode] = useState("false");
+  // const [darkMode, setDarkMode] = useState("false");
 
   return (
     <Tab.Navigator

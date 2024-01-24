@@ -3,26 +3,22 @@ import {
   Text,
   SafeAreaView,
   TextInput,
-  Dimensions,
-  ImageBackground,
   StatusBar,
   TouchableOpacity,
-  Image,
   ScrollView,
   KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import React, { useState, useContext } from "react";
-import theme from "../theme/theme";
 import themeContext from "../theme/themeContex";
 import style from "../theme/style";
 import { Colors } from "../theme/color";
 import { useNavigation } from "@react-navigation/native";
 import { AppBar } from "@react-native-material/core";
 import Icon from "react-native-vector-icons/Ionicons";
-import Icons from "react-native-vector-icons/MaterialCommunityIcons";
 
-const width = Dimensions.get("screen").width;
-const height = Dimensions.get("screen").height;
+// const width = Dimensions.get("screen").width;
+// const height = Dimensions.get("screen").height;
 
 export default function Forgot() {
   const theme = useContext(themeContext);
@@ -31,7 +27,7 @@ export default function Forgot() {
 
   return (
     <SafeAreaView style={[style.area, { backgroundColor: theme.bg }]}>
-      <StatusBar translucent={false} backgroundColor={theme.bg}></StatusBar>
+      <StatusBar translucent={false} backgroundColor={theme.bg} />
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === "ios" ? "padding" : null}
@@ -41,7 +37,7 @@ export default function Forgot() {
             color={theme.bg}
             title="Forgot password"
             titleStyle={[style.r16, { color: theme.txt }]}
-            centerTitle={true}
+            centerTitle
             elevation={0}
             leading={
               <TouchableOpacity onPress={() => navigation.navigate("Login")}>

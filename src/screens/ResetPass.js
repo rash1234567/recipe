@@ -4,37 +4,35 @@ import {
   SafeAreaView,
   TextInput,
   Dimensions,
-  ImageBackground,
-  StatusBar,
   TouchableOpacity,
-  Image,
   ScrollView,
   KeyboardAvoidingView,
+  Platform,
+  StatusBar,
 } from "react-native";
 import React, { useState, useContext } from "react";
-import theme from "../theme/theme";
 import themeContext from "../theme/themeContex";
 import style from "../theme/style";
 import { Colors } from "../theme/color";
 import { useNavigation } from "@react-navigation/native";
-import { AppBar } from "@react-native-material/core";
+// import { AppBar } from "@react-native-material/core";
 import Icon from "react-native-vector-icons/Ionicons";
-import CheckBox from "@react-native-community/checkbox";
+// import CheckBox from "@react-native-community/checkbox";
 
 const width = Dimensions.get("screen").width;
-const height = Dimensions.get("screen").height;
+// const height = Dimensions.get("screen").height;
 
 export default function ResetPass() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isPasswordVisible1, setIsPasswordVisible1] = useState(false);
   const theme = useContext(themeContext);
   const navigation = useNavigation();
-  const [isSelected, setIsSelected] = useState(false);
+  // const [isSelected, setIsSelected] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
 
   return (
     <SafeAreaView style={[style.area, { backgroundColor: theme.bg }]}>
-      <StatusBar translucent={false} backgroundColor={theme.bg}></StatusBar>
+      <StatusBar translucent={false} backgroundColor={theme.bg} />
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === "ios" ? "padding" : null}
@@ -161,7 +159,7 @@ export default function ResetPass() {
                   borderRadius: 10,
                   width: width / 1.5,
                 }}
-              ></View>
+              />
             </View>
 
             <Text style={[style.r12, { color: theme.disable, marginTop: 15 }]}>

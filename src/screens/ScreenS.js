@@ -4,15 +4,13 @@ import {
   SafeAreaView,
   TextInput,
   Dimensions,
-  ImageBackground,
-  StatusBar,
   TouchableOpacity,
   Image,
   ScrollView,
   KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import React, { useState, useContext } from "react";
-import theme from "../theme/theme";
 import themeContext from "../theme/themeContex";
 import style from "../theme/style";
 import { Colors } from "../theme/color";
@@ -66,7 +64,7 @@ export default function ScreenS() {
               ]}
             >
               <TouchableOpacity onPress={() => navigation.navigate("Search2")}>
-                <Icon name="search" size={20} color={theme.disable}></Icon>
+                <Icon name="search" size={20} color={theme.disable} />
               </TouchableOpacity>
               <TextInput
                 placeholder="Type for find recipes.."
@@ -109,7 +107,7 @@ export default function ScreenS() {
               }}
             >
               <Text style={[style.r12, { color: theme.disable }]}>Burger</Text>
-              <Icon name="close" size={20} color={theme.disable}></Icon>
+              <Icon name="close" size={20} color={theme.disable} />
             </View>
             <View
               style={{
@@ -122,7 +120,7 @@ export default function ScreenS() {
               <Text style={[style.r12, { color: theme.disable }]}>
                 Sandwich
               </Text>
-              <Icon name="close" size={20} color={theme.disable}></Icon>
+              <Icon name="close" size={20} color={theme.disable} />
             </View>
             <View
               style={{
@@ -135,7 +133,7 @@ export default function ScreenS() {
               <Text style={[style.r12, { color: theme.disable }]}>
                 Cheesecake
               </Text>
-              <Icon name="close" size={20} color={theme.disable}></Icon>
+              <Icon name="close" size={20} color={theme.disable} />
             </View>
 
             <View
@@ -154,12 +152,12 @@ export default function ScreenS() {
               source={require("../../assets/image/a16.png")}
               resizeMode="stretch"
               style={{ height: height / 7, width: width - 40, marginTop: 10 }}
-            ></Image>
+            />
             <Image
               source={require("../../assets/image/a17.png")}
               resizeMode="stretch"
               style={{ height: height / 7, width: width - 40, marginTop: 15 }}
-            ></Image>
+            />
             <Image
               source={require("../../assets/image/a18.png")}
               resizeMode="stretch"
@@ -169,7 +167,7 @@ export default function ScreenS() {
                 marginTop: 15,
                 marginBottom: 20,
               }}
-            ></Image>
+            />
           </ScrollView>
         </View>
       </KeyboardAvoidingView>

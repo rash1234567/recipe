@@ -25,7 +25,7 @@ import UploadR from "../screens/UploadR";
 import ScreenS from "../screens/ScreenS";
 import Recipetab from "../screens/Recipetab";
 import UploadS from "../screens/UploadS";
-// import Otp from "../screens/Otp";
+import Otp from "../screens/Otp";
 import Profile from "../screens/Profile";
 import Finish from "../screens/Finish";
 import Direction from "../screens/Direction";
@@ -156,11 +156,11 @@ export default function StackNavigator() {
             component={Profile}
             options={{ headerShown: false }}
           />
-          {/* <Stack.Screen
+          <Stack.Screen
             name="Otp"
-            component={Profile}
+            component={Otp}
             options={{ headerShown: false }}
-          /> */}
+          />
           <Stack.Screen
             name="UploadS"
             component={UploadS}

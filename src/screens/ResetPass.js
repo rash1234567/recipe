@@ -17,6 +17,7 @@ import { Colors } from "../theme/color";
 import { useNavigation } from "@react-navigation/native";
 // import { AppBar } from "@react-native-material/core";
 import Icon from "react-native-vector-icons/Ionicons";
+import {useResetPassword} from "../hooks/auth/resetPassword"
 // import CheckBox from "@react-native-community/checkbox";
 
 const width = Dimensions.get("screen").width;
@@ -27,8 +28,32 @@ export default function ResetPass() {
   const [isPasswordVisible1, setIsPasswordVisible1] = useState(false);
   const theme = useContext(themeContext);
   const navigation = useNavigation();
+  const [password,setPassword] = useState("")
   // const [isSelected, setIsSelected] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
+
+  const {resetPassword,resettingPassword} = useResetPassword(
+    (data) => {
+       if (data.error) {
+         alert(data.message);
+         return;
+       }
+       navigation.navigate("Login");
+    },   
+    (err) => {
+      console.log(err)
+    }
+  )
+
+  const handleResetPassword = () => {
+    resetPassword(
+      {
+        token: "",
+        password: "",
+        email
+      }
+    )
+  }
 
   return (
     <SafeAreaView style={[style.area, { backgroundColor: theme.bg }]}>
@@ -65,6 +90,8 @@ export default function ResetPass() {
               ]}
             >
               <TextInput
+                value={password}
+                onChangeText={(e)=>setPassword(e)}
                 placeholder="New Password"
                 onFocus={() => setIsFocused("New Password")}
                 onBlur={() => setIsFocused(false)}
@@ -168,7 +195,7 @@ export default function ResetPass() {
 
             <View style={{ marginTop: 30, marginBottom: 20 }}>
               <TouchableOpacity
-                onPress={() => navigation.navigate("Otp")}
+                onPress={handleResetPassword}
                 style={style.btn}
               >
                 <Text style={style.btntxt}>Reset password</Text>

@@ -10,29 +10,23 @@ export interface IResetPassword {
 
 export const resetPassword = async (input: IResetPassword) => {
   try {
-    const response = await axiosInstance.post("User/ResetPassword", input);
-    if (response.data && !response.data.error) {
-      return response.data;
-    }
-    return response || null;
+    const response = await axiosInstance.post("auth/reset-password", input);
+    return response;
   } catch (error: any) {
     console.log(
       `reset password error ::: ${JSON.stringify(
         error
       )}`
     );
-    return {
-      error: true,
-      message: error.message,
-      data: null,
-    };
+    return error;
   }
 };
 
 export const useResetPassword = (onSuccess: onSuccess, onError: onError) => {
-  const { mutateAsync, isLoading, isError } = useMutation(resetPassword, {
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: resetPassword,
     onSuccess: onSuccess,
     onError: onError,
   });
-  return { mutateAsync, isLoading, isError };
+  return { resetPassword: mutateAsync, resettingPassword:isPending };
 };

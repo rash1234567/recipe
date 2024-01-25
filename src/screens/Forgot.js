@@ -16,6 +16,7 @@ import { Colors } from "../theme/color";
 import { useNavigation } from "@react-navigation/native";
 import { AppBar } from "@react-native-material/core";
 import Icon from "react-native-vector-icons/Ionicons";
+import {useForgotPassword} from "../hooks/auth/forgotPassword"
 
 // const width = Dimensions.get("screen").width;
 // const height = Dimensions.get("screen").height;
@@ -24,6 +25,30 @@ export default function Forgot() {
   const theme = useContext(themeContext);
   const navigation = useNavigation();
   const [isFocused, setIsFocused] = useState(false);
+  const [email,setEmail] = useState("")
+  const {forgotPassword,requestingPassword } = useForgotPassword(
+    (data) => {
+      if (data.error) {
+        alert(data.message);
+        return;
+      }
+      navigation.navigate("otp");
+    },
+    (error)=> console.log(error)
+  )
+
+  const handleForgotPassword = () => {
+    //check if email is a valid email using regex
+    // const isValidEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
+    //   email
+    // );
+    // if (!isValidEmail || email.length === 0) {
+    //   alert("Please enter a valid email address");
+    //   return;
+    // }
+    // forgotPassword(email);
+    navigation.navigate("Otp");
+  }
 
   return (
     <SafeAreaView style={[style.area, { backgroundColor: theme.bg }]}>
@@ -75,6 +100,8 @@ export default function Forgot() {
               ]}
             >
               <TextInput
+                value={email}
+                onChangeText={(e)=>setEmail(e)}
                 placeholder="lauraharper@gmail.com"
                 onFocus={() => setIsFocused("Email address")}
                 onBlur={() => setIsFocused(false)}
@@ -94,7 +121,7 @@ export default function Forgot() {
 
             <View style={{ marginVertical: 20 }}>
               <TouchableOpacity
-                onPress={() => navigation.navigate("Email")}
+                onPress={handleForgotPassword}
                 style={style.btn}
               >
                 <Text style={style.btntxt}>Reset password</Text>

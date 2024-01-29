@@ -50,6 +50,7 @@ export default function Signup() {
       return
     }
     mutateAsync({ email, password });
+    console.log(email, password)
   }
 
 

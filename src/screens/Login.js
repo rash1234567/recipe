@@ -16,7 +16,7 @@ import style from "../theme/style";
 import { Colors } from "../theme/color";
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/Ionicons";
-// import { useLogin } from "../hooks/auth/login";
+import { useLogin } from "../hooks/auth/login";
 
 
 
@@ -29,32 +29,33 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // const { mutateAsync, isPending } = useLogin(
-  //   (data) => {
-  //     console.log(data)
-  //     if (data.error) {
-  //       alert(data.message || "Something went wrong"); ;
-  //       return;
-  //     }
-  //     navigation.navigate("MyTabs");
-  //   },
-  //   (err) => console.log(err)
-  // )
+  const { mutateAsync, isPending } = useLogin(
+    (data) => {
+      console.log(data)
+      if (data.error) {
+        alert(data.message || "Something went wrong"); ;
+        return;
+      }
+      navigation.navigate("MyTabs");
+    },
+    (err) => console.log(err)
+  )
 
-  // const handleLogin = async () => {
-  //   const isValidEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
-  //     email
-  //   )
-  //   if(!isValidEmail || email.length === 0) {
-  //     alert("Please enter a valid email address")
-  //     return
-  //   }
-  //   if(password.length < 6) {
-  //     alert("Password must be at least 6 characters")
-  //     return
-  //   }
-  //   mutateAsync({ email, password });
-  // }
+  const handleLogin = async () => {
+    const isValidEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
+      email
+    )
+    if(!isValidEmail || email.length === 0) {
+      alert("Please enter a valid email address")
+      return
+    }
+    if(password.length < 6) {
+      alert("Password must be at least 6 characters")
+      return
+    }
+    mutateAsync({ email, password });
+    console.log(email, password)
+  }
 
   return (
     <SafeAreaView style={[style.area, { backgroundColor: theme.bg }]}>
@@ -183,9 +184,7 @@ export default function Login() {
 
             <View style={{ marginVertical: 20 }}>
               <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate("MyTabs");
-                }}
+                onPress={handleLogin}
                 style={style.btn}
               >
                 <Text style={style.btntxt}>Login</Text>

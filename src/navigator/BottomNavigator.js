@@ -1,12 +1,12 @@
-import React, { useContext, useState } from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import React, { useContext } from "react";
+import { Image } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import Ionicons from "react-native-vector-icons/Ionicons";
 // import Profile from '../screens/Profile';
 import { Colors } from "../theme/color";
 import themeContext from "../theme/themeContex";
-import Icon from "react-native-vector-icons/FontAwesome5";
+// import Icon from "react-native-vector-icons/FontAwesome5";
 import Home from "../screens/Home";
 import Live from "../screens/Live";
 import Recipetab from "../screens/Recipetab";
@@ -18,7 +18,7 @@ const Tab = createBottomTabNavigator();
 
 export default function MyTabs() {
   const theme = useContext(themeContext);
-  const [darkMode, setDarkMode] = useState("false");
+  const [darkMode,setDarkMode] = useState('false')
 
   return (
     <Tab.Navigator
@@ -43,7 +43,7 @@ export default function MyTabs() {
         options={{
           tabBarShowLabel: false,
 
-          tabBarIcon: ({ focused, color }) => {
+          tabBarIcon: ({ focused }) => {
             return (
               <Image
                 source={require("../../assets/image/a23.png")}
@@ -53,7 +53,7 @@ export default function MyTabs() {
                   width: 20,
                   tintColor: focused ? Colors.primary : Colors.lable,
                 }}
-              ></Image>
+              />
             );
           },
           headerShown: false,
@@ -76,7 +76,7 @@ export default function MyTabs() {
                   width: 20,
                   tintColor: focused ? Colors.primary : Colors.lable,
                 }}
-              ></Image>
+              />
             );
           },
           headerShown: false,

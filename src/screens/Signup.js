@@ -3,79 +3,73 @@ import {
   Text,
   SafeAreaView,
   TextInput,
-  Dimensions,
-  ImageBackground,
   StatusBar,
   TouchableOpacity,
-  Image,
   ScrollView,
   KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import React, { useState, useContext } from "react";
-import { Platform } from "react-native";
-import theme from "../theme/theme";
 import themeContext from "../theme/themeContex";
 import style from "../theme/style";
 import { Colors } from "../theme/color";
 import { useNavigation } from "@react-navigation/native";
+import { useCreateAccount } from "../hooks/auth/register";
 // import { AppBar } from '@react-native-material/core';
 import Icon from "react-native-vector-icons/Ionicons";
-// import CheckBox from '@react-native-community/checkbox';
-
-// const width = Dimensions.get('screen').width
-// const height = Dimensions.get('screen').height
 
 export default function Signup() {
   const theme = useContext(themeContext);
   const navigation = useNavigation();
   const [isFocused, setIsFocused] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const { mutateAsync, isPending } = useCreateAccount(
+    (data) => {
+      if (data.error) {
+        alert(data.message);
+        return;
+      }
+      navigation.navigate("Login");
+    },
+    (err) => console.log(err)
+  );
+
+  const handleRegister = async () => {
+    //check if email is a valid email using regex
+    const isValidEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
+      email
+    )
+    if(!isValidEmail || email.length === 0) {
+      alert("Please enter a valid email address")
+      return
+    }
+    if(password.length < 6) {
+      alert("Password must be at least 6 characters")
+      return
+    }
+    mutateAsync({ email, password });
+  }
+
 
   return (
     <SafeAreaView style={[style.area, { backgroundColor: theme.bg }]}>
-      <StatusBar translucent={false} backgroundColor={theme.bg}></StatusBar>
+      <StatusBar translucent={false} backgroundColor={theme.bg} />
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === "ios" ? "padding" : null}
       >
-        <View style={[style.main, { backgroundColor: theme.bg, marginTop: 15 }]}>
-          <ScrollView showsVerticalScrollIndicator={false}>
+        <View
+          style={[style.main, { backgroundColor: theme.bg, marginTop: 35 }]}
+        >
+          <ScrollView showsVerticalScrollIndicator={false} style={{backgroundColor: theme.bg}}>
             <Text style={[style.title, { color: theme.txt }]}>
               Create Account
             </Text>
             <Text style={[style.r14, { color: theme.disable }]}>
               Enter your name, email and password for sign up.
             </Text>
-            <Text style={[style.m16, { color: theme.txt, marginTop: 25 }]}>
-              Full Name
-            </Text>
-            <View
-              style={[
-                style.inputContainer,
-                {
-                  borderColor:
-                    isFocused === "Full Name" ? Colors.primary : theme.input,
-                  borderWidth: 1,
-                  backgroundColor: theme.input,
-                  marginTop: 5,
-                },
-              ]}
-            >
-              <TextInput
-                placeholder="Full Name"
-                onFocus={() => setIsFocused("Full Name")}
-                onBlur={() => setIsFocused(false)}
-                selectionColor={Colors.primary}
-                placeholderTextColor={Colors.disable}
-                style={[
-                  {
-                    paddingHorizontal: 10,
-                    color: theme.txt,
-                    // fontFamily: "Urbanist-Regular",
-                    flex: 1,
-                  },
-                ]}
-              />
-            </View>
 
             <Text style={[style.m16, { color: theme.txt, marginTop: 20 }]}>
               Email address
@@ -95,7 +89,9 @@ export default function Signup() {
               ]}
             >
               <TextInput
-                placeholder="lauraharper@gmail.com"
+                value={email}
+                onChangeText={(e) => setEmail(e)}
+                placeholder="Please enter email address"
                 onFocus={() => setIsFocused("Email address")}
                 onBlur={() => setIsFocused(false)}
                 selectionColor={Colors.primary}
@@ -128,10 +124,12 @@ export default function Signup() {
               ]}
             >
               <TextInput
+                value={password}
+                onChangeText={(e) => setPassword(e)}
                 placeholder="Password"
                 onFocus={() => setIsFocused("Password")}
                 onBlur={() => setIsFocused(false)}
-                secureTextEntry={true}
+                secureTextEntry
                 selectionColor={Colors.primary}
                 placeholderTextColor={Colors.disable}
                 style={[
@@ -148,7 +146,7 @@ export default function Signup() {
 
             <View style={{ marginVertical: 20 }}>
               <TouchableOpacity
-                onPress={() => navigation.navigate("MyTabs")}
+                onPress={handleRegister}
                 style={style.btn}
               >
                 <Text style={style.btntxt}>Sign up</Text>
@@ -164,86 +162,7 @@ export default function Signup() {
               </TouchableOpacity>
             </View>
 
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between",
-                paddingHorizontal: 20,
-                marginVertical: 20,
-              }}
-            >
-              <View
-                style={[
-                  style.divider,
-                  { flex: 1, backgroundColor: theme.disable },
-                ]}
-              ></View>
-              <Text
-                style={[
-                  style.r12,
-                  { color: theme.disable, marginHorizontal: 10 },
-                ]}
-              >
-                or continue with
-              </Text>
-              <View
-                style={[
-                  style.divider,
-                  { flex: 1, backgroundColor: theme.disable },
-                ]}
-              ></View>
-            </View>
-
-            <View
-              style={[
-                style.inputContainer,
-                {
-                  backgroundColor: "#4285F4",
-                  marginTop: 5,
-                  borderColor: "#4285F4",
-                },
-              ]}
-            >
-              <Image
-                source={require("../../assets/image/a1.png")}
-                resizeMode="stretch"
-                style={{ height: 30, width: 30 }}
-              ></Image>
-              <Text
-                style={[
-                  style.s12,
-                  { color: Colors.secondary, textAlign: "center", flex: 1 },
-                ]}
-              >
-                SIGN UP WITH GOOGLE
-              </Text>
-            </View>
-
-            <View
-              style={[
-                style.inputContainer,
-                {
-                  backgroundColor: "#395998",
-                  marginVertical: 15,
-                  borderColor: "#395998",
-                },
-              ]}
-            >
-              <Image
-                source={require("../../assets/image/a2.png")}
-                resizeMode="stretch"
-                style={{ height: 30, width: 30 }}
-              ></Image>
-              <Text
-                style={[
-                  style.s12,
-                  { color: Colors.secondary, textAlign: "center", flex: 1 },
-                ]}
-              >
-                SIGN UP WITH FACEBOOK
-              </Text>
-            </View>
+          
           </ScrollView>
         </View>
       </KeyboardAvoidingView>

@@ -1,19 +1,15 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import StackNavigator from './src/navigator/StackNavigator';
+import React from "react";
+import StackNavigator from "./src/navigator/StackNavigator";
+import { PersistProvider , ReactQueryProvider, ReduxProvider} from "./src/providers";
 
 export default function App() {
   return (
-      <StackNavigator/>
+    <ReactQueryProvider>
+      <ReduxProvider>
+        <PersistProvider>
+          <StackNavigator />
+        </PersistProvider>
+      </ReduxProvider>
+    </ReactQueryProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#552ac1',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

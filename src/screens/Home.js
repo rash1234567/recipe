@@ -10,16 +10,14 @@ import {
   Image,
   ScrollView,
   KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import React, { useState, useContext } from "react";
-import theme from "../theme/theme";
 import themeContext from "../theme/themeContex";
 import style from "../theme/style";
 import { Colors } from "../theme/color";
 import { useNavigation } from "@react-navigation/native";
-import { AppBar } from "@react-native-material/core";
 import Icon from "react-native-vector-icons/Ionicons";
-import { Platform } from "react-native";
 
 const width = Dimensions.get("screen").width;
 const height = Dimensions.get("screen").height;
@@ -31,7 +29,7 @@ export default function Home() {
 
   return (
     <SafeAreaView style={[style.area, { backgroundColor: theme.bg }]}>
-      <StatusBar translucent={false} backgroundColor={theme.bg}></StatusBar>
+      <StatusBar translucent={false} backgroundColor={theme.bg} />
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === "ios" ? "padding" : null}
@@ -56,7 +54,7 @@ export default function Home() {
                 source={require("../../assets/image/a3.png")}
                 resizeMode="stretch"
                 style={{ height: height / 32, width: width / 17 }}
-              ></Image>
+              />
             </TouchableOpacity>
           </View>
 
@@ -75,7 +73,7 @@ export default function Home() {
             ]}
           >
             <TouchableOpacity onPress={() => navigation.navigate("ScreenS")}>
-              <Icon name="search" size={20} color={theme.disable}></Icon>
+              <Icon name="search" size={20} color={theme.disable} />
             </TouchableOpacity>
             <TextInput
               placeholder="Type to find recipes.."
@@ -87,7 +85,7 @@ export default function Home() {
                 {
                   paddingHorizontal: 10,
                   color: theme.txt,
-                //   fontFamily: "Urbanist-Regular",
+                  //   fontFamily: "Urbanist-Regular",
                   flex: 1,
                 },
               ]}
@@ -119,7 +117,7 @@ export default function Home() {
               source={require("../../assets/image/a4.png")}
               resizeMode="stretch"
               style={{ height: height / 5.5, width: width - 40, marginTop: 10 }}
-            ></Image>
+            />
 
             <View
               style={{
@@ -199,7 +197,7 @@ export default function Home() {
                         name="bookmark-outline"
                         size={20}
                         color={Colors.secondary}
-                      ></Icon>
+                      />
                     </View>
                   </View>
                 </View>
@@ -270,7 +268,7 @@ export default function Home() {
                         name="bookmark-outline"
                         size={20}
                         color={Colors.secondary}
-                      ></Icon>
+                      />
                     </View>
                   </View>
                 </View>
@@ -342,7 +340,7 @@ export default function Home() {
                         name="bookmark-outline"
                         size={20}
                         color={Colors.secondary}
-                      ></Icon>
+                      />
                     </View>
                   </View>
                 </View>

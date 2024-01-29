@@ -1,5 +1,5 @@
-import { View, Text, StatusBar } from "react-native";
-import React, { useState, useContext, useEffect } from "react";
+import { StatusBar } from "react-native";
+import React, { useState, useEffect } from "react";
 import {
   NavigationContainer,
   DarkTheme,
@@ -58,7 +58,6 @@ export default function StackNavigator() {
     };
   }, [darkMode]);
 
-
   const [darkMode, setDarkMode] = useState(false);
   return (
     <themeContext.Provider value={darkMode === true ? theme.dark : theme.light}>
@@ -69,18 +68,18 @@ export default function StackNavigator() {
           translucent={false}
         />
         <Stack.Navigator>
-           <Stack.Screen
+          <Stack.Screen
             name="Orboard"
             component={Orboard}
             options={{ headerShown: false }}
           />
-       
+
           <Stack.Screen
             name="Profile2"
             component={Profile2}
             options={{ headerShown: false }}
           />
-         
+
           <Stack.Screen
             name="Notification1"
             component={Notification1}
@@ -157,11 +156,11 @@ export default function StackNavigator() {
             component={Profile}
             options={{ headerShown: false }}
           />
-          {/* <Stack.Screen
+          <Stack.Screen
             name="Otp"
-            component={Profile}
+            component={Otp}
             options={{ headerShown: false }}
-          /> */}
+          />
           <Stack.Screen
             name="UploadS"
             component={UploadS}
@@ -202,22 +201,22 @@ export default function StackNavigator() {
             component={Notification}
             options={{ headerShown: false }}
           />
-        <Stack.Screen
-          name="ResetPass"
-          component={ResetPass}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Email"
-          component={Email}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Forgot"
-          component={Forgot}
-          options={{ headerShown: false }}
-        />
-             <Stack.Screen
+          <Stack.Screen
+            name="ResetPass"
+            component={ResetPass}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Email"
+            component={Email}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Forgot"
+            component={Forgot}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
             name="MyTabs"
             component={MyTabs}
             options={{ headerShown: false }}
@@ -226,7 +225,7 @@ export default function StackNavigator() {
             name="Login"
             component={Login}
             options={{ headerShown: false }}
-          /> 
+          />
           <Stack.Screen
             name="Signup"
             component={Signup}

@@ -4,15 +4,13 @@ import {
   SafeAreaView,
   TextInput,
   Dimensions,
-  ImageBackground,
-  StatusBar,
   TouchableOpacity,
   Image,
   ScrollView,
   KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import React, { useState, useContext } from "react";
-import theme from "../theme/theme";
 import themeContext from "../theme/themeContex";
 import style from "../theme/style";
 import { Colors } from "../theme/color";
@@ -76,7 +74,7 @@ export default function UploadS() {
               source={theme.a19}
               resizeMode="stretch"
               style={{ height: height / 6, width: width - 40 }}
-            ></Image>
+            />
 
             <Text style={[style.m16, { color: theme.txt, marginTop: 20 }]}>
               Recipe title
@@ -133,7 +131,7 @@ export default function UploadS() {
                 onFocus={() => setIsFocused("Description")}
                 onBlur={() => setIsFocused(false)}
                 selectionColor={Colors.primary}
-                multiline={true}
+                multiline
                 textAlignVertical="top"
                 placeholderTextColor={Colors.disable}
                 style={[
@@ -212,7 +210,7 @@ export default function UploadS() {
                     {
                       paddingHorizontal: 10,
                       color: theme.txt,
-                    //   fontFamily: "Poppins-Regular",
+                      //   fontFamily: "Poppins-Regular",
                       flex: 1,
                     },
                   ]}
@@ -223,7 +221,7 @@ export default function UploadS() {
                 size={20}
                 color={theme.disable}
                 style={{ marginLeft: 10 }}
-              ></Icon>
+              />
             </View>
 
             <View
@@ -239,7 +237,7 @@ export default function UploadS() {
                 },
               ]}
             >
-              <Icons name="plus-box" size={20} color={theme.disable}></Icons>
+              <Icons name="plus-box" size={20} color={theme.disable} />
               <Text
                 style={[style.m12, { color: theme.disable, marginLeft: 10 }]}
               >
@@ -294,13 +292,13 @@ export default function UploadS() {
                 source={theme.a20}
                 resizeMode="stretch"
                 style={{ height: height / 15, width: width / 4.5 }}
-              ></Image>
+              />
               <Icon
                 name="trash"
                 size={20}
                 color={theme.disable}
                 style={{ marginLeft: 10 }}
-              ></Icon>
+              />
             </View>
             <View
               style={[
@@ -320,7 +318,7 @@ export default function UploadS() {
                 onFocus={() => setIsFocused("a2")}
                 onBlur={() => setIsFocused(false)}
                 selectionColor={Colors.primary}
-                multiline={true}
+                multiline
                 textAlignVertical="top"
                 placeholderTextColor={Colors.disable}
                 style={[
@@ -348,13 +346,13 @@ export default function UploadS() {
                 source={theme.a21}
                 resizeMode="stretch"
                 style={{ height: height / 15, width: width / 4.5 }}
-              ></Image>
+              />
               <Icon
                 name="trash"
                 size={20}
                 color={theme.disable}
                 style={{ marginLeft: 10 }}
-              ></Icon>
+              />
             </View>
             <View
               style={[
@@ -374,7 +372,7 @@ export default function UploadS() {
                 onFocus={() => setIsFocused("a1")}
                 onBlur={() => setIsFocused(false)}
                 selectionColor={Colors.primary}
-                multiline={true}
+                multiline
                 textAlignVertical="top"
                 placeholderTextColor={Colors.disable}
                 style={[
@@ -405,7 +403,7 @@ export default function UploadS() {
                 },
               ]}
             >
-              <Icons name="plus-box" size={20} color={theme.disable}></Icons>
+              <Icons name="plus-box" size={20} color={theme.disable} />
               <Text
                 style={[style.m12, { color: theme.disable, marginLeft: 10 }]}
               >

@@ -16,7 +16,9 @@ import { Colors } from "../theme/color";
 import { useNavigation } from "@react-navigation/native";
 import { AppBar } from "@react-native-material/core";
 import Icon from "react-native-vector-icons/Ionicons";
-import {useForgotPassword} from "../hooks/auth/forgotPassword"
+import { useForgotPassword } from "../hooks/auth/forgotPassword";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 // const width = Dimensions.get("screen").width;
 // const height = Dimensions.get("screen").height;
@@ -25,19 +27,19 @@ export default function Forgot() {
   const theme = useContext(themeContext);
   const navigation = useNavigation();
   const [isFocused, setIsFocused] = useState(false);
-  const [email,setEmail] = useState("")
-  const {forgotPassword,requestingPassword } = useForgotPassword(
+  const [email, setEmail] = useState("");
+  const { forgotPassword, requestingPassword } = useForgotPassword(
     (data) => {
       if (data.error) {
         alert(data.message);
         return;
       }
-      navigation.navigate("otp");
+      navigation.navigate("ResetPass");
     },
-    (error)=> console.log(error)
-  )
+    (error) => console.log(error)
+  );
 
-  const handleForgotPassword = () => {
+  const handleForgotPassword = async () => {
     //check if email is a valid email using regex
     // const isValidEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
     //   email
@@ -47,8 +49,9 @@ export default function Forgot() {
     //   return;
     // }
     // forgotPassword(email);
-    navigation.navigate("Otp");
-  }
+    navigation.navigate("ResetPass");
+    await AsyncStorage.setItem("email", email);
+  };
 
   return (
     <SafeAreaView style={[style.area, { backgroundColor: theme.bg }]}>
@@ -101,7 +104,7 @@ export default function Forgot() {
             >
               <TextInput
                 value={email}
-                onChangeText={(e)=>setEmail(e)}
+                onChangeText={(e) => setEmail(e)}
                 placeholder="lauraharper@gmail.com"
                 onFocus={() => setIsFocused("Email address")}
                 onBlur={() => setIsFocused(false)}

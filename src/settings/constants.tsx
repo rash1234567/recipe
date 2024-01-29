@@ -1,3 +1,3 @@
 export const config = {
-  baseUrl: "https://recipe-u045.onrender.com/api/v1/",
+  baseUrl: "https://recipe-p4ko.onrender.com/api/v1",
 };

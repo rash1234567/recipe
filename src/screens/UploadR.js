@@ -1,22 +1,13 @@
-import {
-  View,
-  Text,
-  SafeAreaView,
-  Dimensions,
-  ImageBackground,
-  StatusBar,
-  TouchableOpacity,
-  ScrollView,
-  KeyboardAvoidingView,
-  Platform,
-} from "react-native";
-import React, { useContext } from "react";
-import themeContext from "../theme/themeContex";
-import style from "../theme/style";
-import { Colors } from "../theme/color";
-import { useNavigation } from "@react-navigation/native";
-import { AppBar } from "@react-native-material/core";
-import Icon from "react-native-vector-icons/Ionicons";
+import { View, Text, SafeAreaView, TextInput, Dimensions, ImageBackground,StatusBar, TouchableOpacity, Image, ScrollView, KeyboardAvoidingView } from 'react-native'
+import React, { useState, useContext } from 'react'
+import theme from '../theme/theme';
+import themeContext from '../theme/themeContex';
+import style from '../theme/style';
+import { Colors } from '../theme/color';
+import { useNavigation } from '@react-navigation/native';
+import { AppBar } from '@react-native-material/core';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { Platform } from 'react-native';
 
 const width = Dimensions.get("screen").width;
 const height = Dimensions.get("screen").height;

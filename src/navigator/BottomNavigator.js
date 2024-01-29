@@ -13,12 +13,13 @@ import Recipetab from "../screens/Recipetab";
 import Profile2 from "../screens/Profile2";
 import Favourite from "../screens/Favourite";
 import Icons from "react-native-vector-icons/MaterialCommunityIcons";
+import { useState } from "react";
 
 const Tab = createBottomTabNavigator();
 
 export default function MyTabs() {
   const theme = useContext(themeContext);
-  // const [darkMode, setDarkMode] = useState("false");
+  const [darkMode,setDarkMode] = useState('false')
 
   return (
     <Tab.Navigator

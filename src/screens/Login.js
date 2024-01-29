@@ -16,8 +16,8 @@ import style from "../theme/style";
 import { Colors } from "../theme/color";
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/Ionicons";
-// import { useLogin } from "../hooks/auth/login";
-
+import { useLogin } from "../hooks/auth/login";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export default function Login() {
@@ -29,32 +29,38 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // const { mutateAsync, isPending } = useLogin(
-  //   (data) => {
-  //     console.log(data)
-  //     if (data.error) {
-  //       alert(data.message || "Something went wrong"); ;
-  //       return;
-  //     }
-  //     navigation.navigate("MyTabs");
-  //   },
-  //   (err) => console.log(err)
-  // )
+  const { mutateAsync, isPending } = useLogin(
+    (data) => {
+      console.log(data);
+      if (data.error) {
+        alert(data.message || "Something went wrong");
+        return;
+      }
+      alert("login sucessful");
+      navigation.navigate("MyTabs");
+      console.log(data);
+      AsyncStorage.setItem("token", data?.token);
+      AsyncStorage.setItem("name", JSON.stringify(data?.name));
 
-  // const handleLogin = async () => {
-  //   const isValidEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
-  //     email
-  //   )
-  //   if(!isValidEmail || email.length === 0) {
-  //     alert("Please enter a valid email address")
-  //     return
-  //   }
-  //   if(password.length < 6) {
-  //     alert("Password must be at least 6 characters")
-  //     return
-  //   }
-  //   mutateAsync({ email, password });
-  // }
+    },
+    (err) => console.log(err)
+  );
+
+  const handleLogin = async () => {
+    const isValidEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
+      email
+    );
+    if (!isValidEmail || email.length === 0) {
+      alert("Please enter a valid email address");
+      return;
+    }
+    if (password.length < 6) {
+      alert("Password must be at least 6 characters");
+      return;
+    }
+    mutateAsync({ email, password });
+    console.log(email, password);
+  };
 
   return (
     <SafeAreaView style={[style.area, { backgroundColor: theme.bg }]}>
@@ -63,7 +69,9 @@ export default function Login() {
         style={{ flex: 1 }}
         behavior={Platform.OS === "ios" ? "padding" : null}
       >
-        <View style={[style.main, { backgroundColor: theme.bg, marginTop: 35 }]}>
+        <View
+          style={[style.main, { backgroundColor: theme.bg, marginTop: 35 }]}
+        >
           <ScrollView showsVerticalScrollIndicator={false}>
             <Text style={[style.title, { color: theme.txt }]}>Welcome</Text>
             <Text style={[style.r14, { color: theme.disable }]}>
@@ -183,12 +191,15 @@ export default function Login() {
 
             <View style={{ marginVertical: 20 }}>
               <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate("MyTabs");
-                }}
+                onPress={handleLogin}
                 style={style.btn}
+                disabled={isPending}
               >
-                <Text style={style.btntxt}>Login</Text>
+                {isPending ? (
+                  <Text style={style.btntxt}>Loading...</Text>
+                ) : (
+                  <Text style={style.btntxt}>Login</Text>
+                )}
               </TouchableOpacity>
             </View>
 
@@ -199,7 +210,7 @@ export default function Login() {
               <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
                 <Text style={{ color: Colors.primary }}> Create Account</Text>
               </TouchableOpacity>
-            </View> 
+            </View>
           </ScrollView>
         </View>
       </KeyboardAvoidingView>

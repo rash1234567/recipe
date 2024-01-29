@@ -10,14 +10,15 @@ import {
   Platform,
   StatusBar,
 } from "react-native";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import themeContext from "../theme/themeContex";
 import style from "../theme/style";
 import { Colors } from "../theme/color";
 import { useNavigation } from "@react-navigation/native";
 // import { AppBar } from "@react-native-material/core";
 import Icon from "react-native-vector-icons/Ionicons";
-import {useResetPassword} from "../hooks/auth/resetPassword"
+import { useResetPassword } from "../hooks/auth/resetPassword";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 // import CheckBox from "@react-native-community/checkbox";
 
 const width = Dimensions.get("screen").width;
@@ -26,34 +27,46 @@ const width = Dimensions.get("screen").width;
 export default function ResetPass() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isPasswordVisible1, setIsPasswordVisible1] = useState(false);
+  const [email, setEmail] = useState("");
   const theme = useContext(themeContext);
   const navigation = useNavigation();
-  const [password,setPassword] = useState("")
+  const [password, setPassword] = useState("");
   // const [isSelected, setIsSelected] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
 
-  const {resetPassword,resettingPassword} = useResetPassword(
+  useEffect(() => {
+    const getEmailFromStorage = async () => {
+      try {
+        const storedEmail = await AsyncStorage.getItem("email");
+        setEmail(storedEmail || "");
+      } catch (error) {
+        console.error("Error retrieving email from storage:", error);
+      }
+    };
+    getEmailFromStorage();
+  }, []);
+
+  const { resetPassword, resettingPassword } = useResetPassword(
     (data) => {
-       if (data.error) {
-         alert(data.message);
-         return;
-       }
-       navigation.navigate("Login");
-    },   
+      if (data.error) {
+        alert(data.message);
+        return;
+      }
+      alert("Password reset successfully");
+      navigation.navigate("Login");
+    },
     (err) => {
-      console.log(err)
+      console.log(err);
     }
-  )
+  );
 
   const handleResetPassword = () => {
-    resetPassword(
-      {
-        token: "",
-        password: "",
-        email
-      }
-    )
-  }
+    resetPassword({
+      token: "",
+      password: password,
+      email: email,
+    });
+  };
 
   return (
     <SafeAreaView style={[style.area, { backgroundColor: theme.bg }]}>
@@ -70,8 +83,8 @@ export default function ResetPass() {
               Reset Password
             </Text>
             <Text style={[style.r14, { color: theme.disable }]}>
-              This will change the password for the email
-              Haileesteinfield@gmail.com
+              This will change the password for the email...
+              {email}
             </Text>
 
             <Text style={[style.m16, { color: theme.txt, marginTop: 20 }]}>
@@ -91,7 +104,7 @@ export default function ResetPass() {
             >
               <TextInput
                 value={password}
-                onChangeText={(e)=>setPassword(e)}
+                onChangeText={(e) => setPassword(e)}
                 placeholder="New Password"
                 onFocus={() => setIsFocused("New Password")}
                 onBlur={() => setIsFocused(false)}
@@ -154,7 +167,7 @@ export default function ResetPass() {
               </TouchableOpacity>
             </View>
 
-            <View
+            {/* <View
               style={{
                 flexDirection: "row",
                 alignItems: "center",
@@ -168,7 +181,7 @@ export default function ResetPass() {
               <Text style={[style.m12, { color: Colors.primary }]}>
                 Strong😎
               </Text>
-            </View>
+            </View> */}
 
             <View
               style={{
@@ -189,16 +202,21 @@ export default function ResetPass() {
               />
             </View>
 
-            <Text style={[style.r12, { color: theme.disable, marginTop: 15 }]}>
+            {/* <Text style={[style.r12, { color: theme.disable, marginTop: 15 }]}>
               Your password is strong, nice work!
-            </Text>
+            </Text> */}
 
             <View style={{ marginTop: 30, marginBottom: 20 }}>
               <TouchableOpacity
                 onPress={handleResetPassword}
                 style={style.btn}
+                disable={resettingPassword}
               >
-                <Text style={style.btntxt}>Reset password</Text>
+                {resettingPassword ? (
+                  <Text style={style.btntxt}>Please wait</Text>
+                ) : (
+                  <Text style={style.btntxt}>Reset password</Text>
+                )}
               </TouchableOpacity>
             </View>
           </ScrollView>

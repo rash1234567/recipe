@@ -18,14 +18,16 @@ import style from "../theme/style";
 import { Colors } from "../theme/color";
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/Ionicons";
-
-const width = Dimensions.get("screen").width;
-const height = Dimensions.get("screen").height;
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Home() {
   const theme = useContext(themeContext);
   const navigation = useNavigation();
   const [isFocused, setIsFocused] = useState(false);
+  const [name, setName] = useState(() => {
+    const value = AsyncStorage.getItem("name");
+    return value || "";
+  });
 
   return (
     <SafeAreaView style={[style.area, { backgroundColor: theme.bg }]}>
@@ -45,7 +47,7 @@ export default function Home() {
           >
             <Text style={[style.r16, { color: theme.txt }]}>
               Hello,
-              <Text style={[style.m16, { color: theme.txt }]}> Laura 🖐️</Text>
+              <Text style={[style.m16, { color: theme.txt }]}> {name} 🖐️</Text>
             </Text>
             <TouchableOpacity
               onPress={() => navigation.navigate("Notification")}

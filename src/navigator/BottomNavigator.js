@@ -13,6 +13,7 @@ import Recipetab from "../screens/Recipetab";
 import Profile2 from "../screens/Profile2";
 import Favourite from "../screens/Favourite";
 import Icons from "react-native-vector-icons/MaterialCommunityIcons";
+import { useState } from "react";
 
 const Tab = createBottomTabNavigator();
 

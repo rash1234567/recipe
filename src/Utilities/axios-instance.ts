@@ -6,7 +6,7 @@ import * as constants from '../settings/constants';
 import { store } from '../store/store';
 
 const axiosInstance = axios.create({
-  baseURL: `${constants.config.baseUrl}/`,
+  baseURL: `https://recipe-p4ko.onrender.com/api/v1/`,
   transformResponse: [
     ...(axios.defaults.transformResponse as any),
     humps.camelizeKeys,

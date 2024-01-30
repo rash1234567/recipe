@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, StatusBar, TextInput, ScrollView, TouchableOpacity, ImageBackground, Image, Dimensions, KeyboardAvoidingView } from 'react-native'
+import { View, Text, SafeAreaView, StatusBar, TextInput, ScrollView, TouchableOpacity, ImageBackground, Image, Dimensions, KeyboardAvoidingView,Platform } from 'react-native'
 import React, { useState, useContext } from 'react'
 import { Colors } from '../theme/color'
 import style from '../theme/style'

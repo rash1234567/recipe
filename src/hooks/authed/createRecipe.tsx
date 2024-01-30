@@ -14,10 +14,10 @@ export interface IRecipe {
 export const createRecipe = async (input: IRecipe) => {
   try {
      const response = await axiosInstance.post("/recipes/post-recipe", input);
-    console.log(`create account response ::: ${JSON.stringify(response)}`);
+    console.log(`create recipe response ::: ${JSON.stringify(response)}`);
     return response;
   } catch (error: any) {
-    console.log(`create account error ::: ${JSON.stringify(error)}`);
+    console.log(`create recipe error ::: ${JSON.stringify(error)}`);
     return error;
   }
 };

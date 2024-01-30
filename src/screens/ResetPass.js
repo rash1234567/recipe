@@ -19,19 +19,22 @@ import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { useResetPassword } from "../hooks/auth/resetPassword";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useAppSelector } from "../store";
+import { selectToken } from "../redux/auth";
 // import CheckBox from "@react-native-community/checkbox";
 
 const width = Dimensions.get("screen").width;
 // const height = Dimensions.get("screen").height;
 
 export default function ResetPass() {
+  const token = useAppSelector(selectToken)
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isPasswordVisible1, setIsPasswordVisible1] = useState(false);
   const [email, setEmail] = useState("");
   const theme = useContext(themeContext);
   const navigation = useNavigation();
   const [password, setPassword] = useState("");
-  // const [isSelected, setIsSelected] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [isFocused, setIsFocused] = useState(false);
 
   useEffect(() => {
@@ -61,8 +64,24 @@ export default function ResetPass() {
   );
 
   const handleResetPassword = () => {
+    // check if email is a valid email using regex
+    const isValidEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
+      email
+    )
+    if (!isValidEmail || email.length === 0) {
+      alert("Please enter a valid email address");
+      return;
+    }
+    if(password.length === 0) {
+      alert("Password must be at least 6 characters long");
+      return;
+    }
+    if(password !== confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
     resetPassword({
-      token: "",
+      token,
       password: password,
       email: email,
     });
@@ -145,6 +164,8 @@ export default function ResetPass() {
               ]}
             >
               <TextInput
+                value={confirmPassword}
+                onChangeText={(e) => setConfirmPassword(e)}
                 placeholder="Confirm Password"
                 onFocus={() => setIsFocused("Confirm Password")}
                 onBlur={() => setIsFocused(false)}

@@ -28,29 +28,29 @@ export default function Forgot() {
   const navigation = useNavigation();
   const [isFocused, setIsFocused] = useState(false);
   const [email, setEmail] = useState("");
-  const { forgotPassword, requestingPassword } = useForgotPassword(
-    (data) => {
-      if (data.error) {
-        alert(data.message);
-        return;
-      }
-      navigation.navigate("ResetPass");
-    },
-    (error) => console.log(error)
-  );
+  // const { forgotPassword, requestingPassword } = useForgotPassword(
+  //   (data) => {
+  //     if (data.error) {
+  //       alert(data.message);
+  //       return;
+  //     }
+  //     navigation.navigate("ResetPass");
+  //   },
+  //   (error) => console.log(error)
+  // );
 
   const handleForgotPassword = async () => {
-    //check if email is a valid email using regex
-    // const isValidEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
-    //   email
-    // );
-    // if (!isValidEmail || email.length === 0) {
-    //   alert("Please enter a valid email address");
-    //   return;
-    // }
+    // check if email is a valid email using regex
+    const isValidEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
+      email
+    );
+    if (!isValidEmail || email.length === 0) {
+      alert("Please enter a valid email address");
+      return;
+    }
     // forgotPassword(email);
-    navigation.navigate("ResetPass");
     await AsyncStorage.setItem("email", email);
+    navigation.navigate("ResetPass");
   };
 
   return (

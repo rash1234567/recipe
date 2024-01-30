@@ -4,8 +4,8 @@ import { onSuccess, onError } from "../../Utilities/types";
 
 export interface IResetPassword {
   email: string;
-  newPassword: string;
-  confirmNewPassword: string;
+  token: string;
+  password: string;
 }
 
 export const resetPassword = async (input: IResetPassword) => {

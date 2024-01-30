@@ -29,7 +29,7 @@ export default function UploadS() {
   const theme = useContext(themeContext);
   const navigation = useNavigation();
   const [isFocused, setIsFocused] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(img);
+  const [selectedImage, setSelectedImage] = useState(null);
   const [recipeTitle, setRecipeTitle] = useState("");
   const [recipeDescription, setRecipeDescription] = useState("");
   const [recipeIngredients, setRecipeIngredients] = useState("");
@@ -66,7 +66,7 @@ export default function UploadS() {
       return;
     }
     mutateAsync({
-      recipeImage: selectedImage,
+      recipeImage: selectedImage?.assets[0].uri,
       title: recipeTitle,
       description: recipeDescription,
       estimatedTime: recipeEstimatedTime,
@@ -74,6 +74,25 @@ export default function UploadS() {
       category: recipeCategory,
     });
   };
+
+  //  const handleCreateRecipe = async () => {
+  //    if (!selectedImage) {
+  //      alert("Please select an image");
+  //      return;
+  //    }
+  //    const formData = new FormData();
+  //    formData.append("recipeImage", {
+  //      uri: selectedImage?.assets[0]?.uri,
+  //      type: selectedImage?.assets[0]?.type, // or the actual type of the image
+  //      name: selectedImage?.assets[0]?.fileName,
+  //    });
+  //    formData.append("title", recipeTitle);
+  //    formData.append("description", recipeDescription);
+  //    formData.append("estimatedTime", recipeEstimatedTime);
+  //    formData.append("ingredients", recipeIngredients);
+  //    formData.append("category", recipeCategory);
+  //    mutateAsync(formData);
+  //  };
 
   const handleImageSelect = async () => {
     try {
@@ -83,9 +102,9 @@ export default function UploadS() {
         aspect: [4, 3],
         quality: 1,
       });
-
-      if (!result.cancelled) {
-        setSelectedImage(result.uri);
+      console.log(result);
+      if (!result.canceled) {
+        setSelectedImage(result);
       }
     } catch (error) {
       console.error("Error selecting image:", error);
@@ -133,6 +152,7 @@ export default function UploadS() {
                     justifyContent: "center",
                     borderRadius: 20,
                   }}
+
                 >
                   {isPending ? (
                     <Text style={[style.m12, { color: Colors.secondary }]}>
@@ -140,7 +160,7 @@ export default function UploadS() {
                     </Text>
                   ) : (
                     <Text style={[style.m12, { color: Colors.secondary }]}>
-                      Upload recipe
+                      Create recipe
                     </Text>
                   )}
                 </View>
@@ -166,7 +186,7 @@ export default function UploadS() {
 
               {selectedImage && (
                 <Image
-                  source={selectedImage}
+                  source={{uri:selectedImage?.assets[0].uri }}
                   style={{ width: 200, height: 200, marginTop: 10 }}
                 />
               )}
@@ -361,6 +381,7 @@ export default function UploadS() {
                   borderWidth: 1,
                   backgroundColor: theme.input,
                   marginTop: 5,
+                  marginBottom: 20,
                 },
               ]}
             >

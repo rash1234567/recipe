@@ -28,7 +28,7 @@ axiosInstance.defaults.headers.get.Accept = 'application/json';
 //       return Promise.resolve();
 //     });
 
-// createAuthRefreshInterceptor(axiosInstance, refreshAuthLogic, {
+// createAuthRefresh4rceptor(axiosInstance, refreshAuthLogic, {
 //   retryInstance: axios,
 //   pauseInstanceWhileRefreshing: true,
 // });

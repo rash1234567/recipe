@@ -10,7 +10,7 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import themeContext from "../theme/themeContex";
 import style from "../theme/style";
 import { Colors } from "../theme/color";
@@ -18,6 +18,9 @@ import { useNavigation } from "@react-navigation/native";
 import { AppBar } from "@react-native-material/core";
 import Icon from "react-native-vector-icons/Ionicons";
 import Icons from "react-native-vector-icons/MaterialCommunityIcons";
+import * as ImagePicker from "expo-image-picker";
+import { useCreateRecipe } from "../hooks/authed/createRecipe";
+import img from "../../assets/image/a7.png";
 
 const width = Dimensions.get("screen").width;
 const height = Dimensions.get("screen").height;
@@ -26,6 +29,68 @@ export default function UploadS() {
   const theme = useContext(themeContext);
   const navigation = useNavigation();
   const [isFocused, setIsFocused] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(img);
+  const [recipeTitle, setRecipeTitle] = useState("");
+  const [recipeDescription, setRecipeDescription] = useState("");
+  const [recipeIngredients, setRecipeIngredients] = useState("");
+  const [recipeEstimatedTime, setRecipeEstimatedTime] = useState("");
+  const [recipeCategory, setRecipeCategory] = useState("");
+
+  const { mutateAsync, isPending } = useCreateRecipe(
+    (data) => {
+      console.log(data);
+      if (data.error) {
+        alert(data.message || "Something went wrong");
+        return;
+      }
+      console.log("this is data", data);
+    },
+    (err) => console.log(err)
+  );
+
+  useEffect(() => {
+    // Request permissions when the component mounts
+    requestPermission();
+  }, []);
+
+  const requestPermission = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== "granted") {
+      alert("Permission to access media library is required!");
+    }
+  };
+
+  const handleCreateRecipe = async () => {
+    if (!selectedImage) {
+      alert("Please select an image");
+      return;
+    }
+    mutateAsync({
+      recipeImage: selectedImage,
+      title: recipeTitle,
+      description: recipeDescription,
+      estimatedTime: recipeEstimatedTime,
+      ingredients: recipeIngredients,
+      category: recipeCategory,
+    });
+  };
+
+  const handleImageSelect = async () => {
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+
+      if (!result.cancelled) {
+        setSelectedImage(result.uri);
+      }
+    } catch (error) {
+      console.error("Error selecting image:", error);
+    }
+  };
 
   return (
     <SafeAreaView style={[style.area, { backgroundColor: theme.bg }]}>
@@ -47,10 +112,21 @@ export default function UploadS() {
               </TouchableOpacity>
             }
             trailing={
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={handleCreateRecipe}
+                disabled={
+                  isPending ||
+                  !selectedImage ||
+                  !recipeTitle ||
+                  !recipeDescription ||
+                  !recipeIngredients ||
+                  !recipeEstimatedTime ||
+                  !recipeCategory
+                }
+              >
                 <View
                   style={{
-                    backgroundColor: "#A7F5B3",
+                    backgroundColor: "green",
                     height: height / 26,
                     width: width / 3.6,
                     alignItems: "center",
@@ -58,9 +134,15 @@ export default function UploadS() {
                     borderRadius: 20,
                   }}
                 >
-                  <Text style={[style.m12, { color: Colors.secondary }]}>
-                    Upload recipe
-                  </Text>
+                  {isPending ? (
+                    <Text style={[style.m12, { color: Colors.secondary }]}>
+                      Uploading...
+                    </Text>
+                  ) : (
+                    <Text style={[style.m12, { color: Colors.secondary }]}>
+                      Upload recipe
+                    </Text>
+                  )}
                 </View>
               </TouchableOpacity>
             }
@@ -69,11 +151,26 @@ export default function UploadS() {
             showsVerticalScrollIndicator={false}
             style={{ marginTop: 10 }}
           >
-            <Image
-              source={theme.a19}
-              resizeMode="stretch"
-              style={{ height: height / 6, width: width - 40 }}
-            />
+            <View>
+              <TouchableOpacity onPress={handleImageSelect}>
+                <View
+                  style={{
+                    padding: 10,
+                    backgroundColor: "lightblue",
+                    borderRadius: 5,
+                  }}
+                >
+                  <Text>Select Image</Text>
+                </View>
+              </TouchableOpacity>
+
+              {selectedImage && (
+                <Image
+                  source={selectedImage}
+                  style={{ width: 200, height: 200, marginTop: 10 }}
+                />
+              )}
+            </View>
 
             <Text style={[style.m16, { color: theme.txt, marginTop: 20 }]}>
               Recipe title
@@ -105,12 +202,14 @@ export default function UploadS() {
                     flex: 1,
                   },
                 ]}
+                onChangeText={(text) => setRecipeTitle(text)}
+                value={recipeTitle}
               />
               <Icon name="close" color={Colors.disable} size={20} />
             </View>
 
             <Text style={[style.m16, { color: theme.txt, marginTop: 20 }]}>
-              Description
+              Steps/Description
             </Text>
             <View
               style={[
@@ -126,7 +225,7 @@ export default function UploadS() {
               ]}
             >
               <TextInput
-                placeholder="Enter here"
+                placeholder="Enter here steps separated by comma"
                 onFocus={() => setIsFocused("Description")}
                 onBlur={() => setIsFocused(false)}
                 selectionColor={Colors.primary}
@@ -143,6 +242,8 @@ export default function UploadS() {
                     flex: 1,
                   },
                 ]}
+                onChangeText={(text) => setRecipeDescription(text)}
+                value={recipeDescription}
               />
             </View>
 
@@ -176,54 +277,58 @@ export default function UploadS() {
                     flex: 1,
                   },
                 ]}
+                onChangeText={(text) => setRecipeEstimatedTime(text)}
+                value={recipeEstimatedTime}
               />
             </View>
 
             <Text style={[style.m16, { color: theme.txt, marginTop: 20 }]}>
               Ingredients
             </Text>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <View
+
+            <View
+              style={[
+                style.inputContainer,
+                {
+                  borderColor:
+                    isFocused === "Ingredients" ? Colors.primary : theme.input,
+                  borderWidth: 1,
+                  backgroundColor: theme.input,
+                  marginTop: 5,
+                  height: 100,
+                },
+              ]}
+            >
+              <TextInput
+                placeholder="Enter here list of ingredients separated by comma"
+                onFocus={() => setIsFocused("Ingredients")}
+                onBlur={() => setIsFocused(false)}
+                selectionColor={Colors.primary}
+                multiline
+                textAlignVertical="top"
+                placeholderTextColor={Colors.disable}
                 style={[
-                  style.inputContainer,
+                  style.r12,
                   {
-                    borderColor:
-                      isFocused === "Ingredients"
-                        ? Colors.primary
-                        : theme.input,
-                    borderWidth: 1,
-                    backgroundColor: theme.input,
-                    marginTop: 5,
+                    paddingHorizontal: 10,
+                    color: theme.txt,
+                    // fontFamily: "Poppins-Regular",
+                    height: 100,
                     flex: 1,
                   },
                 ]}
-              >
-                <TextInput
-                  placeholder="Enter here"
-                  onFocus={() => setIsFocused("Ingredients")}
-                  onBlur={() => setIsFocused(false)}
-                  selectionColor={Colors.primary}
-                  placeholderTextColor={Colors.disable}
-                  style={[
-                    style.r12,
-                    {
-                      paddingHorizontal: 10,
-                      color: theme.txt,
-                      //   fontFamily: "Poppins-Regular",
-                      flex: 1,
-                    },
-                  ]}
-                />
-              </View>
-              <Icon
+                onChangeText={(text) => setRecipeIngredients(text)}
+                value={recipeIngredients}
+              />
+            </View>
+            {/* <Icon
                 name="trash"
                 size={20}
                 color={theme.disable}
                 style={{ marginLeft: 10 }}
-              />
-            </View>
+              /> */}
 
-            <View
+            {/* <View
               style={[
                 style.inputContainer,
                 {
@@ -242,7 +347,7 @@ export default function UploadS() {
               >
                 Add more ingredients
               </Text>
-            </View>
+            </View> */}
 
             <Text style={[style.m16, { color: theme.txt, marginTop: 20 }]}>
               Category
@@ -274,10 +379,12 @@ export default function UploadS() {
                     flex: 1,
                   },
                 ]}
+                onChangeText={(text) => setRecipeCategory(text)}
+                value={recipeCategory}
               />
             </View>
 
-            <Text style={[style.m16, { color: theme.txt, marginTop: 20 }]}>
+            {/* <Text style={[style.m16, { color: theme.txt, marginTop: 20 }]}>
               Step by step
             </Text>
             <View
@@ -408,7 +515,7 @@ export default function UploadS() {
               >
                 Add more steps
               </Text>
-            </View>
+            </View> */}
           </ScrollView>
         </View>
       </KeyboardAvoidingView>

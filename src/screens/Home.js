@@ -12,7 +12,7 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import themeContext from "../theme/themeContex";
 import style from "../theme/style";
 import { Colors } from "../theme/color";
@@ -20,15 +20,27 @@ import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/Ionicons";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+const height = Dimensions.get("screen").height;
+const width = Dimensions.get("screen").width;
 export default function Home() {
   const theme = useContext(themeContext);
   const navigation = useNavigation();
   const [isFocused, setIsFocused] = useState(false);
-  const [name, setName] = useState(() => {
-    const value = AsyncStorage.getItem("name");
-    return value || "";
-  });
+  const [name, setName] = useState("");
 
+  useEffect(() => {
+    const getNameFromStorage = async () => {
+      try {
+        const storedName = await AsyncStorage.getItem("name");
+        setName(storedName || "");
+      } catch (error) {
+        console.error("Error retrieving name from storage:", error);
+      }
+    };
+    getNameFromStorage();
+  },[])
+
+ 
   return (
     <SafeAreaView style={[style.area, { backgroundColor: theme.bg }]}>
       <StatusBar translucent={false} backgroundColor={theme.bg} />

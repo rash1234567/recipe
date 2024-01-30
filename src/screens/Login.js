@@ -17,8 +17,9 @@ import { Colors } from "../theme/color";
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { useLogin } from "../hooks/auth/login";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { login } from "../redux/auth";
+import { useDispatch } from "react-redux";
 
 export default function Login() {
   // const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -28,6 +29,7 @@ export default function Login() {
   const [isFocused, setIsFocused] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
 
   const { mutateAsync, isPending } = useLogin(
     (data) => {
@@ -36,12 +38,13 @@ export default function Login() {
         alert(data.message || "Something went wrong");
         return;
       }
+      dispatch(login({ user: data.data.user, access: data.token }));
       alert("login sucessful");
       navigation.navigate("MyTabs");
-      console.log(data);
+      console.log("this is data", data);
+      console.log("name", data.token);
       AsyncStorage.setItem("token", data?.token);
-      AsyncStorage.setItem("name", JSON.stringify(data?.name));
-
+      AsyncStorage.setItem("name", data?.data?.name);
     },
     (err) => console.log(err)
   );

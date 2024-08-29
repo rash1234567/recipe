@@ -3,7 +3,7 @@ import axiosInstance from "../../Utilities/axios-instance";
 import { onSuccess,onError } from "../../Utilities/types";
 
 export interface IRecipe {
-  recipeImage: string;
+  // recipeImage: string;
   title: string;
   description: string;
   estimatedTime: string;
@@ -12,6 +12,7 @@ export interface IRecipe {
 }
 
 export const createRecipe = async (input: IRecipe) => {
+  console.log("input", input);
   try {
      const response = await axiosInstance.post("/recipes/post-recipe", input);
     console.log(`create recipe response ::: ${JSON.stringify(response)}`);

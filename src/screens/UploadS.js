@@ -66,7 +66,7 @@ export default function UploadS() {
       return;
     }
     mutateAsync({
-      recipeImage: selectedImage?.assets[0].uri,
+      // recipeImage: selectedImage?.assets[0].uri,
       title: recipeTitle,
       description: recipeDescription,
       estimatedTime: recipeEstimatedTime,
@@ -135,7 +135,7 @@ export default function UploadS() {
                 onPress={handleCreateRecipe}
                 disabled={
                   isPending ||
-                  !selectedImage ||
+           
                   !recipeTitle ||
                   !recipeDescription ||
                   !recipeIngredients ||
@@ -156,7 +156,7 @@ export default function UploadS() {
                 >
                   {isPending ? (
                     <Text style={[style.m12, { color: Colors.secondary }]}>
-                      Uploading...
+                      creating...
                     </Text>
                   ) : (
                     <Text style={[style.m12, { color: Colors.secondary }]}>
@@ -188,6 +188,7 @@ export default function UploadS() {
                 <Image
                   source={{uri:selectedImage?.assets[0].uri }}
                   style={{ width: 200, height: 200, marginTop: 10 }}
+                 
                 />
               )}
             </View>
